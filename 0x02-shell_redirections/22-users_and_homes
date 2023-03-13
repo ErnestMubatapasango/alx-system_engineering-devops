@@ -1,2 +1,2 @@
 #!/bin/bash
-getent passwd | sort -t: -k1,1 | awk -F: '{printf "%-15s %s\n", $1, $6}'
+getent /etc/passwd | sort -t: -k1,1 | awk -F: '{printf "%-15s %s\n", $1, $6}'
