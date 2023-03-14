@@ -1,2 +1,2 @@
 #!/bin/bash
-DECIMAL=$((16BASE10))
+DECIMAL=$((16#BASE10))
