@@ -1,24 +1,36 @@
 #!/usr/bin/python3
 """
-    Uses the reddit API for get the 10 hot posts
+A Function that queries the Reddit API and prints
+the top ten hot posts of a subreddit
 """
 import requests
-from sys import argv
+import sys
 
 
 def top_ten(subreddit):
-    """Get the 10 host posts"""
-    url_sred_inf = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    url_sred_inf += "?limit=10"
-    headers = {'user-agent': 'request'}
-    response = requests.get(url_sred_inf, headers=headers,
-                            allow_redirects=False)
-    if str(response) != "<Response [200]>":
+    """ Queries to Reddit API """
+    u_agent = 'Mozilla/5.0'
+
+    headers = {
+        'User-Agent': u_agent
+    }
+
+    params = {
+        'limit': 10
+    }
+
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    res = requests.get(url,
+                       headers=headers,
+                       params=params,
+                       allow_redirects=False)
+    if res.status_code != 200:
         print(None)
         return
-    r_json = response.json()
-    hot_posts_json = r_json.get("data").get("children")
-    top_10_posts = ""
-    for post in hot_posts_json:
-        top_10_posts += post.get("data").get("title") + "\n"
-    print(top_10_posts, end="")
+    dic = res.json()
+    hot_posts = dic['data']['children']
+    if len(hot_posts) == 0:
+        print(None)
+    else:
+        for post in hot_posts:
+            print(post['data']['title'])
